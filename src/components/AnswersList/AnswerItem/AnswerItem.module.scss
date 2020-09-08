@@ -11,9 +11,15 @@
 
 
 }
-.AnswerItem.error{
+.error{
   background: indianred;
+  &:hover{
+    background: indianred;
+  }
 }
-.AnswerItem.success{
+.success{
   background: aquamarine;
+  &:hover{
+    background: aquamarine;
+  }
 }
