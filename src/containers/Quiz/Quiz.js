@@ -27,7 +27,7 @@ class Quiz extends Component{
                 id:2,
                 answers:[
                     {text: 'Канеки Кен', id:1},
-                    {text: 'Стив Джопс', id:2},
+                    {text: 'Стив Джобс', id:2},
                     {text: 'Тим Кок', id:3},
                     {text: 'Илон Маск', id:4}
                 ]
