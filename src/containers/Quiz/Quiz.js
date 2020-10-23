@@ -85,6 +85,7 @@ class Quiz extends Component{
             results: {}
         })
     }
+
     render(){
         return(
             <div className={classes.Quiz}>

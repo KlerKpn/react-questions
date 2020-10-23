@@ -15,12 +15,11 @@
           }
         }
     }
-
-    &.error{
-      color: rgba(240, 87, 108, .7);
-    }
-    &.success{
-      color: rgba(161, 240, 69, .7);
-    }
 }
 
+.error{
+  color: rgba(240, 87, 108, .7);
+}
+.success{
+  color: rgba(161, 240, 69, .7);
+}
