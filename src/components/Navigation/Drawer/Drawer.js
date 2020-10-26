@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import classes from './Drawer.module.scss'
 import Backdrop from '../../UI/Backdrop/Backdrop'
-import {NavLink} from 'react-router-dom'
+import {Link, NavLink} from 'react-router-dom'
 
 
 const links = [
@@ -43,7 +43,7 @@ class Drawer extends Component {
             <>
                 <nav className={cls.join(' ')}>
                     <ul>
-                        <a>{this.renderLinks()}</a>
+                        <React.Fragment>{this.renderLinks()}</React.Fragment>
                     </ul>
                 </nav>
 
