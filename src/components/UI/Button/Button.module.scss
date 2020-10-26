@@ -8,6 +8,19 @@
     text-transform: uppercase;
     font-weight: bold;
     font-size: 15px;
+    cursor: pointer;
+        &.error{
+            background: rgba(240, 87, 108, .7);
+        }
+        &.success{
+            background: rgba(161, 240, 69, .7);
+           
+        }
+        &.primary{
+            background: #2884f6;
+            color: white;
+
+        }
         &:focus{
             outline: none;
         }
@@ -18,15 +31,5 @@
             color: black;
             cursor: not-allowed;
             background: #ccc;
-        }
-        &.error{
-            background: rgba(240, 87, 108, .7);
-        }
-        &.success{
-            background: rgba(161, 240, 69, .7);
-        }
-        &.primary{
-            background: #2884f6;
-            color: white;
         }
 }
