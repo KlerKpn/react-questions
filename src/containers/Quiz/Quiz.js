@@ -42,7 +42,7 @@ class Quiz extends Component{
             }
         }
         const results = this.state.results
-        const question= this.state.quiz[this.state.activeQuestion]
+        const question = this.state.quiz[this.state.activeQuestion]
 
         if(question.rightAnswerId === answerId){
             if(!results[question.id]){
