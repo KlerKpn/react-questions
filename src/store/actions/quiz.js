@@ -15,7 +15,6 @@ export function fetchQuizes(){
         dispatch(fetchQuizesStart())
         try {
             const response = await axios.get('quizes.json')
-            console.log(response.data)
 
             const quizes =[]
 

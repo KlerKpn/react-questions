@@ -2,18 +2,18 @@ import React, { Component } from 'react'
 import classes from './Auth.module.scss'
 import Button from './../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
-import axios from 'axios'
+import { auth } from '../../store/actions/auth'
+import { connect } from 'react-redux';
 
 function validateEmail(email) {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
 }
-
-export default class Auth extends Component {
+class Auth extends Component {
 
     state = {
-        formControls:{
-            email:{
+        formControls: {
+            email: {
                 value: '',
                 type: 'email',
                 label: 'Email',
@@ -21,7 +21,7 @@ export default class Auth extends Component {
                 errMessage: 'Введите корректный email',
                 valid: false,
                 touched: false,
-                validation:{
+                validation: {
                     required: true,
                     email: true
                 }
@@ -34,7 +34,7 @@ export default class Auth extends Component {
                 errMessage: 'Введите корректный пароль',
                 valid: false,
                 touched: false,
-                validation:{
+                validation: {
                     required: true,
                     minLength: 6
                 }
@@ -42,64 +42,47 @@ export default class Auth extends Component {
         }
     }
 
-    loginHandler = async ()=>{
-        const authData ={
-            email: this.state.formControls.email.value,
-            password: this.state.formControls.password.value,
-            returnSecureToken: true
-        }
-        try {
-            const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD3n5whqK2ox8JE9sUOHTUneONonSLH4as', authData)
-            console.log(response.data)
-        } catch (error) {
-            console.log(error)
-        }
+    loginHandler = () => {
+        this.props.auth(
+            this.state.formControls.email.value, this.state.formControls.password.value, true
+        )
     }
 
-    regHandler = async ()=>{
-        const authData ={
-            email: this.state.formControls.email.value,
-            password: this.state.formControls.password.value,
-            returnSecureToken: true
-        }
-        try {
-            const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD3n5whqK2ox8JE9sUOHTUneONonSLH4as', authData)
-            console.log(response.data)
-        } catch (error) {
-            console.log(error)
-        }
+    regHandler = () => {
+        this.props.auth(
+            this.state.formControls.email.value, this.state.formControls.password.value, false
+        )
     }
 
-    submitHandler = event =>{
+    submitHandler = event => {
         event.preventDefault()
     }
 
-    validateControl(value, validation){
-        if(!validation){
+    validateControl(value, validation) {
+        if (!validation) {
             return true
         }
         let isValid = true
 
-        if(validation.required){
+        if (validation.required) {
             isValid = value.trim() !== '' && isValid
         }
 
-        if(validation.email){
+        if (validation.email) {
             isValid = validateEmail(value) && isValid
         }
 
-        if(validation.minLength){
+        if (validation.minLength) {
             isValid = value.length >= validation.minLength && isValid
         }
 
         return isValid
     }
 
-    onChangeHandler = (event, controlName) =>{
-        console.log(`${controlName}: ${event.target.value}`)
+    onChangeHandler = (event, controlName) => {
 
-        const formControls = {...this.state.formControls}
-        const control = { ...formControls[controlName]}
+        const formControls = { ...this.state.formControls }
+        const control = { ...formControls[controlName] }
 
         control.value = event.target.value
         control.touched = true
@@ -118,11 +101,11 @@ export default class Auth extends Component {
         })
     }
 
-    renderInputs(){
-        return Object.keys(this.state.formControls).map((controlName, index)=>{
+    renderInputs() {
+        return Object.keys(this.state.formControls).map((controlName, index) => {
             const control = this.state.formControls[controlName]
             return (
-                <Input 
+                <Input
                     key={controlName + index}
                     value={control.value}
                     type={control.type}
@@ -145,22 +128,22 @@ export default class Auth extends Component {
                     <h1>Авторизация</h1>
                     <form onSubmit={this.submitHandler} className={classes.AuthForm}>
 
-                    { this.renderInputs() }
+                        {this.renderInputs()}
 
-                    <Button 
-                        type='success' 
-                        onClick={this.loginHandler}
-                        disabled = {!this.state.isFormValid}
-                    >
-                        Войти
+                        <Button
+                            type='success'
+                            onClick={this.loginHandler}
+                            disabled={!this.state.isFormValid}
+                        >
+                            Войти
                     </Button>
 
-                    <Button 
-                        type='primary' 
-                        onClick={this.regHandler}
-                        disabled = {!this.state.isFormValid}
-                    >
-                        Регистрация
+                        <Button
+                            type='primary'
+                            onClick={this.regHandler}
+                            disabled={!this.state.isFormValid}
+                        >
+                            Регистрация
                     </Button>
 
                     </form>
@@ -169,3 +152,12 @@ export default class Auth extends Component {
         )
     }
 }
+
+
+function mapDispatchToProps(dispatch) {
+    return {
+        auth: (email, password, isLogin) => dispatch(auth(email, password, isLogin))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Auth)
